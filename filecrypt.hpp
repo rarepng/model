@@ -21,6 +21,7 @@
 #include <qslider.h>
 #include <qlineedit.h>
 #include <qdial.h>
+#include <qevent.h>
 
 
 #include <openssl/conf.h>
@@ -159,7 +160,22 @@ private:
     QColor m_borderColor;
     int m_borderRadius;
 };
+class custom_label : QLabel {
+    Q_OBJECT
+public:
+    explicit custom_label(QImage img, QWidget* parent = nullptr);
+    bool eventFilter(QObject* obj, QEvent* ev);
+protected:
+    void enterEvent(QEnterEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* ev) override;
+private:
+    QImage bodyimg;
+    //void hoverEvent(QLeaveEvent* ev) override;
+    //void focusOutEvent(QFocusEvent* event) override;
+    //void resizeEvent(QResizeEvent* event) override;
 
+    //void 
+};
 
 
 
@@ -216,6 +232,7 @@ private:
 
 
     custom_field* namefield;
+    custom_label* body_label;
 
 
     Ui::filecryptClass ui;

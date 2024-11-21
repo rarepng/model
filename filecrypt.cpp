@@ -17,9 +17,30 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     connect(ui.dial_brain, &QDial::valueChanged, this, &model::updatebraincol);
     connect(ui.slider_heart, &QSlider::valueChanged, this, &model::updateheartsize);
     connect(ui.slider_brain, &QSlider::valueChanged, this, &model::updatebrainsize);
+    //connect(ui.body,SIGNAL(clicked()))
+
+    QImage body{ "body.png" };
+    
+    qInfo() << body.size();
+
+    //for (size_t i{ 200 }; i < 400; i++) {
+    //    for (size_t j{ 200 }; j < 400; j++) {
+    //        QColor c = body.pixelColor(i, j);
+
+    //        c.setHsv(0, c.saturation()+160, c.value(), c.alpha());
+    //        body.setPixelColor(i, j, c);
+    //    }
+    //}
+
+    body.convertToFormat(QImage::Format_RGBA8888);
+    qInfo() << body.size();
+
+    //ui.body->setPixmap(QPixmap::fromImage(body));
 
 
     namefield = new custom_field("field", false, ui.name_grid);
+
+    body_label = new custom_label(body,ui.body);
 
 
     //defaultline = ui.line0->styleSheet();
@@ -67,7 +88,7 @@ model::~model() {}
 
 custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent) : QLineEdit(parent) {
 
-    this->mapToParent(QPoint(0,0));
+    this->mapToParent(QPoint(0, 0));
 
     this->setGeometry(parent->rect());
 
@@ -126,7 +147,46 @@ custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent
 
         shake_anim = shake((QWidget*)this->parent());
     }
-    
+
+}
+custom_label::custom_label(QImage img, QWidget* parent) : QLabel(parent) {
+
+    this->installEventFilter(this);
+
+
+    this->bodyimg = img;
+
+    this->mapToParent(QPoint(0, 0));
+
+    this->setGeometry(parent->rect());
+    this->setPixmap(QPixmap::fromImage(img));
+
+    //this->setStyleSheet(stylesheets::base_field);
+    //this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    this->adjustSize();
+    this->setMouseTracking(true);
+    //parent->setMouseTracking(true);
+
+}
+
+bool custom_label::eventFilter(QObject* obj, QEvent* ev){
+    if (ev->type() == QEvent::MouseMove) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
+        QImage newbody{};
+        for (int i{ mouseEvent->pos().x() }; i < mouseEvent->pos().x() + 20; i++) {
+            for (int j{ mouseEvent->pos().y() }; j < mouseEvent->pos().y() + 20; j++) {
+                QColor c = this->bodyimg.pixelColor(i, j);
+
+                c.setHsv(0, c.saturation(), c.value(), c.alpha());
+                this->bodyimg.setPixelColor(i, j, c);
+                //qInfo() << 
+            }
+        }
+        this->setPixmap(QPixmap::fromImage(this->bodyimg));
+        //qInfo() << mouseEvent->pos();
+    }
+    return false;
 }
 
 void custom_field::focusInEvent(QFocusEvent* event) {
@@ -246,4 +306,14 @@ QPropertyAnimation* custom_field::coloranim(T* anim, const QColor& col_from, con
     col_anim->setStartValue(col_from.name());
     col_anim->setEndValue(col_to.name());
     return col_anim;
+}
+
+void custom_label::enterEvent(QEnterEvent* ev){
+    QLabel::enterEvent(ev);
+    //qInfo() << ev->pos();
+}
+
+void custom_label::mouseMoveEvent(QMouseEvent* ev){
+    QLabel::mouseMoveEvent(ev);
+    //qInfo() << ev->pos();
 }
