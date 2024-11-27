@@ -179,7 +179,7 @@ struct part {
     int height;
     int startx;
     int starty;
-    int hue;
+    std::function<int()> hue;
 };
 
 
@@ -206,18 +206,18 @@ private:
 
 
     std::vector<part> parts{ 
-        {192,396,72,334,0},                 //legs
-        {90,112,123,0,0},                   //head
-        {124,222,108,112,0},                //torso
-        {53,76,0,335,0},                    //hands_R
-        {53,76,291,335,0},                  //hands_L
-        {108,223,0,112,0},                  //arms_R
-        {108,223,232,112,0},                //arms_L
-        {48,36,161,198,0},                  //stomach
-        {37,47,153,154,0},                  //heart
-        //{342,730,0,0,0}                     //skeleton
+        {192,396,72,334,[&] {return 0; }},                 //legs
+        {90,112,123,0,[&] {return static_cast<int>((total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100); }},                   //head
+        {124,222,108,112,[&] {return 0; }},                //torso
+        {53,76,0,335,[&]{return 0;}},                    //hands_R
+        {53,76,291,335,[&]{return 0;}},                  //hands_L
+        {108,223,0,112,[&]{return 0;}},                  //arms_R
+        {108,223,232,112,[&]{return 0;}},                //arms_L
+        {48,36,161,198,[&]{return 0;}},                  //stomach
+        {37,47,153,154,[&]{return 0;}},                  //heart
+        //{342,730,0,0,[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
     };
-
+    
 
     void updateallcols();
     void resetcols();
@@ -236,14 +236,16 @@ private:
     custom_field* cogs_value;
     custom_field* total_expenses;
 
-
-
     Ui::filecryptClass ui;
 
 
-    int heart_hue{ 0 };
     int brain_hue{ 0 };
-    int heart_size{ 60 };
-    int brain_size{ 60 };
+    int heart_hue{ 0 };
+    int skeleton_hue{ 0 };
+    int arms_hue{ 0 };
+    int hands_hue{ 0 };
+    int stomach_hue{ 0 };
+    int torso_hue{ 0 };
+    int legs_hue{ 0 };
 
 };

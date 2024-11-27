@@ -14,12 +14,9 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
     QImage body{ "body.png" };
-    
-    qInfo() << body.size();
 
 
     body.convertToFormat(QImage::Format_RGBA8888);
-    qInfo() << body.size();
 
     total_assets = new custom_field("Total Assets", false, ui.assets_label);
     total_revenue = new custom_field("Total Revenue", false, ui.revenue_label);
@@ -28,6 +25,17 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     cogs_perc = new custom_field("COGS %", false, ui.cogsperc_label);
     cogs_value = new custom_field("COGS Value", false, ui.cogsvalue_label);
     total_expenses = new custom_field("Total Expenses", false, ui.expenses_label);
+
+
+    total_assets->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    total_revenue->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    total_marketing_cost->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    total_salaries->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    cogs_perc->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    cogs_value->setValidator(new QDoubleValidator(0, 100.0, 2, this));
+    total_expenses->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+
+
 
     body_label = new custom_label(body,ui.body);
 
@@ -47,19 +55,19 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 void model::updateheartcol(int value) {
-    heart_hue = value;
+    //heart_hue = value;
     //changeSvg("heart.svg", QColor::fromHsv(value, 255, 255), ui.heart, heart_size);
 }
 void model::updatebraincol(int value) {
-    brain_hue = value;
+    //brain_hue = value;
     //changeSvg("brain.svg", QColor::fromHsv(value, 255, 255), ui.brain, brain_size);
 }
 void model::updateheartsize(int value) {
-    heart_size = value;
+    //heart_size = value;
     //changeSvg("heart.svg", QColor::fromHsv(heart_hue, 255, 255), ui.heart, value);
 }
 void model::updatebrainsize(int value) {
-    brain_size = value;
+    //brain_size = value;
     //changeSvg("brain.svg", QColor::fromHsv(brain_hue, 255, 255), ui.brain, value);
 }
 
@@ -234,7 +242,7 @@ void model::updateallcols() {
                 QColor c = this->body_label->bodyimg.pixelColor(j, k);
                 int sat = static_cast<int>(255.0f * (1.0f - std::sqrt(std::pow((static_cast<float>(j - i.startx) / static_cast<float>(i.width)) - 0.5, 2) + std::pow((static_cast<float>(k - i.starty) / static_cast<float>(i.height)) - 0.5, 2))));
                 //c.setHsv(i.hue + 255 - (sat), sat, c.value(), c.alpha());
-                c.setHsv(i.hue, sat, c.value(), c.alpha());
+                c.setHsv(i.hue(), sat, c.value(), c.alpha());
                 this->body_label->bodyimg.setPixelColor(j, k, c);
             }
         }
@@ -329,3 +337,4 @@ custom_button::custom_button(QWidget* parent) : QPushButton(parent){
 
     this->setGeometry(parent->rect());
 }
+
