@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.16)
-project(filecrypt LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.22)
+project(model LANGUAGES CXX)
 
 include(qt.cmake)
 
@@ -15,35 +15,24 @@ find_package(Qt${QT_VERSION_MAJOR}
         Svg
 )
 
-find_package(OpenSSL REQUIRED)
 
 qt_standard_project_setup()
 
 set(PROJECT_SOURCES
     main.cpp
-    filecrypt.ui
-    filecrypt.hpp
-    filecrypt.cpp
+    model.ui
+    model.hpp
+    model.cpp
 )
 
-add_executable(filecrypt ${PROJECT_SOURCES})
+add_executable(model ${PROJECT_SOURCES})
 
 
-set_target_properties(filecrypt
-    PROPERTIES
-        WIN32_EXECUTABLE TRUE
-)
 
-target_link_libraries(filecrypt
+target_link_libraries(model
     PUBLIC
         Qt::Core
         Qt::Gui
         Qt::Widgets
         Qt::Svg
-        OpenSSL::Crypto
-)
-
-target_include_directories(filecrypt
-    PUBLIC
-    ### add includes for windows
 )

@@ -22,24 +22,15 @@
 #include <qlineedit.h>
 #include <qdial.h>
 #include <qevent.h>
+#include <qpushbutton.h>
+#include <qlabel.h>
 
-
-#include <openssl/conf.h>
-#include <openssl/aes.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#include <openssl/rand.h>
-
-
-#include <QtZlib/zlib.h>
 
 #include <vector>
 
 
-#include "ui_filecrypt.h"
+#include "ui_model.h"
 
-//#define CHUNK_SIZE 4096//*1024*100
-#define CHUNK_SIZE 16384*1024
 
 namespace stylesheets {
     inline QString base_field{ "QLineEdit{\
@@ -165,19 +156,31 @@ class custom_label : QLabel {
 public:
     explicit custom_label(QImage img, QWidget* parent = nullptr);
     bool eventFilter(QObject* obj, QEvent* ev);
+    QImage bodyimg;
+    QImage orig;
+    void rerender();
+    void reset();
 protected:
     void enterEvent(QEnterEvent* event) override;
     void mouseMoveEvent(QMouseEvent* ev) override;
 private:
-    QImage bodyimg;
     //void hoverEvent(QLeaveEvent* ev) override;
     //void focusOutEvent(QFocusEvent* event) override;
     //void resizeEvent(QResizeEvent* event) override;
 
-    //void 
 };
-
-
+class custom_button : QPushButton {
+    Q_OBJECT
+public:
+    explicit custom_button(QWidget* parent = nullptr);
+};
+struct part {
+    int width;
+    int height;
+    int startx;
+    int starty;
+    int hue;
+};
 
 
 class model : public QMainWindow
@@ -189,13 +192,6 @@ public:
 
 
 
-    void browse();
-    void compresschunk(const std::string& in, std::string& out);
-    void encryptchunk(const QByteArray& in, QByteArray& out);
-    void uncompresschunk(const std::string& in, std::string& out);
-    void decryptchunk(const QByteArray& in, QByteArray& out);
-    void encrypt();
-    void decrypt();
     void updateheartcol(int value);
     void updatebraincol(int value);
     void updateheartsize(int value);
@@ -208,31 +204,38 @@ public:
 
 private:
 
-    std::vector<size_t> chunksizes{};
+
+    std::vector<part> parts{ 
+        {192,396,72,334,0},                 //legs
+        {90,112,123,0,0},                   //head
+        {124,222,108,112,0},                //torso
+        {53,76,0,335,0},                    //hands_R
+        {53,76,291,335,0},                  //hands_L
+        {108,223,0,112,0},                  //arms_R
+        {108,223,232,112,0},                //arms_L
+        {48,36,161,198,0},                  //stomach
+        {37,47,153,154,0},                  //heart
+        //{342,730,0,0,0}                     //skeleton
+    };
 
 
-    unsigned long orig{ 0 };
-
-    QString defaultline{};
-
-    QFile permafile{};
-
-    unsigned char valid_bar{ 0 };
-
-    std::unique_ptr<QFile> current{nullptr};
-
-    QFileInfo currentinfo{};
-
-    QByteArray data{};
-
-    QByteArray buffer{ QByteArray(CHUNK_SIZE,'0') };
-    QByteArray compressionbuffer{ QByteArray(CHUNK_SIZE,'0') };
-    QByteArray encryptionbuffer{ QByteArray(CHUNK_SIZE,'0') };
+    void updateallcols();
+    void resetcols();
 
 
 
-    custom_field* namefield;
     custom_label* body_label;
+    custom_button* submit;
+    custom_button* reset;
+
+    custom_field* total_assets;
+    custom_field* total_revenue;
+    custom_field* total_marketing_cost;
+    custom_field* total_salaries;
+    custom_field* cogs_perc;
+    custom_field* cogs_value;
+    custom_field* total_expenses;
+
 
 
     Ui::filecryptClass ui;

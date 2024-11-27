@@ -1,4 +1,4 @@
-#include "filecrypt.hpp"
+#include "model.hpp"
 
 #include <iostream>
 #include <qfile.h>
@@ -12,54 +12,35 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-    connect(ui.browse, &QAbstractButton::clicked, this, &model::browse);
-    connect(ui.dial_heart, &QDial::valueChanged, this, &model::updateheartcol);
-    connect(ui.dial_brain, &QDial::valueChanged, this, &model::updatebraincol);
-    connect(ui.slider_heart, &QSlider::valueChanged, this, &model::updateheartsize);
-    connect(ui.slider_brain, &QSlider::valueChanged, this, &model::updatebrainsize);
-    //connect(ui.body,SIGNAL(clicked()))
 
     QImage body{ "body.png" };
     
     qInfo() << body.size();
 
-    //for (size_t i{ 200 }; i < 400; i++) {
-    //    for (size_t j{ 200 }; j < 400; j++) {
-    //        QColor c = body.pixelColor(i, j);
-
-    //        c.setHsv(0, c.saturation()+160, c.value(), c.alpha());
-    //        body.setPixelColor(i, j, c);
-    //    }
-    //}
 
     body.convertToFormat(QImage::Format_RGBA8888);
     qInfo() << body.size();
 
-    //ui.body->setPixmap(QPixmap::fromImage(body));
-
-
-    namefield = new custom_field("field", false, ui.name_grid);
+    total_assets = new custom_field("Total Assets", false, ui.assets_label);
+    total_revenue = new custom_field("Total Revenue", false, ui.revenue_label);
+    total_marketing_cost = new custom_field("Total Marketing Costs", false, ui.marketingcost_label);
+    total_salaries = new custom_field("Total Salaries", false, ui.salaries_label);
+    cogs_perc = new custom_field("COGS %", false, ui.cogsperc_label);
+    cogs_value = new custom_field("COGS Value", false, ui.cogsvalue_label);
+    total_expenses = new custom_field("Total Expenses", false, ui.expenses_label);
 
     body_label = new custom_label(body,ui.body);
 
 
-    //defaultline = ui.line0->styleSheet();
 
-
-
-    ui.browse->setIcon(QIcon{ "file.svg" });
-    changeSvg("brain.svg", QColor::fromHsv(brain_hue,255,255), ui.brain,60);
-    changeSvg("heart.svg", QColor::fromHsv(heart_hue, 255, 255), ui.heart,60);
-    
-
+    submit = new custom_button(ui.update_label);
+    connect(reinterpret_cast<QPushButton*>(submit), &QAbstractButton::clicked, this, &model::updateallcols);
+    reset = new custom_button(ui.reset_label);
+    connect(reinterpret_cast<QPushButton*>(reset), &QAbstractButton::clicked, this, &model::resetcols);
 
 }
 
 
-
-void model::browse() {
-    std::cout << "clicked";
-}
 
 
 
@@ -67,19 +48,19 @@ void model::browse() {
 
 void model::updateheartcol(int value) {
     heart_hue = value;
-    changeSvg("heart.svg", QColor::fromHsv(value, 255, 255), ui.heart, heart_size);
+    //changeSvg("heart.svg", QColor::fromHsv(value, 255, 255), ui.heart, heart_size);
 }
 void model::updatebraincol(int value) {
     brain_hue = value;
-    changeSvg("brain.svg", QColor::fromHsv(value, 255, 255), ui.brain, brain_size);
+    //changeSvg("brain.svg", QColor::fromHsv(value, 255, 255), ui.brain, brain_size);
 }
 void model::updateheartsize(int value) {
     heart_size = value;
-    changeSvg("heart.svg", QColor::fromHsv(heart_hue, 255, 255), ui.heart, value);
+    //changeSvg("heart.svg", QColor::fromHsv(heart_hue, 255, 255), ui.heart, value);
 }
 void model::updatebrainsize(int value) {
     brain_size = value;
-    changeSvg("brain.svg", QColor::fromHsv(brain_hue, 255, 255), ui.brain, value);
+    //changeSvg("brain.svg", QColor::fromHsv(brain_hue, 255, 255), ui.brain, value);
 }
 
 model::~model() {}
@@ -155,6 +136,7 @@ custom_label::custom_label(QImage img, QWidget* parent) : QLabel(parent) {
 
 
     this->bodyimg = img;
+    this->orig = img;
 
     this->mapToParent(QPoint(0, 0));
 
@@ -173,20 +155,26 @@ custom_label::custom_label(QImage img, QWidget* parent) : QLabel(parent) {
 bool custom_label::eventFilter(QObject* obj, QEvent* ev){
     if (ev->type() == QEvent::MouseMove) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
-        QImage newbody{};
         for (int i{ mouseEvent->pos().x() }; i < mouseEvent->pos().x() + 20; i++) {
             for (int j{ mouseEvent->pos().y() }; j < mouseEvent->pos().y() + 20; j++) {
                 QColor c = this->bodyimg.pixelColor(i, j);
 
                 c.setHsv(0, c.saturation(), c.value(), c.alpha());
                 this->bodyimg.setPixelColor(i, j, c);
-                //qInfo() << 
             }
         }
         this->setPixmap(QPixmap::fromImage(this->bodyimg));
         //qInfo() << mouseEvent->pos();
     }
     return false;
+}
+
+void custom_label::rerender(){
+    this->setPixmap(QPixmap::fromImage(this->bodyimg));
+}
+
+void custom_label::reset(){
+    this->setPixmap(QPixmap::fromImage(this->orig));
 }
 
 void custom_field::focusInEvent(QFocusEvent* event) {
@@ -239,7 +227,24 @@ void custom_field::resizeEvent(QResizeEvent* event){
     }
 }
 
+void model::updateallcols() {
+    for (const auto& i : parts) {
+        for (int j{ i.startx }; j < i.startx+i.width; j++) {
+            for (int k{ i.starty }; k < i.starty+i.height; k++) {
+                QColor c = this->body_label->bodyimg.pixelColor(j, k);
+                int sat = static_cast<int>(255.0f * (1.0f - std::sqrt(std::pow((static_cast<float>(j - i.startx) / static_cast<float>(i.width)) - 0.5, 2) + std::pow((static_cast<float>(k - i.starty) / static_cast<float>(i.height)) - 0.5, 2))));
+                //c.setHsv(i.hue + 255 - (sat), sat, c.value(), c.alpha());
+                c.setHsv(i.hue, sat, c.value(), c.alpha());
+                this->body_label->bodyimg.setPixelColor(j, k, c);
+            }
+        }
+    }
+    this->body_label->rerender();
+}
 
+void model::resetcols(){
+    this->body_label->reset();
+}
 
 
 template <typename T>
@@ -316,4 +321,11 @@ void custom_label::enterEvent(QEnterEvent* ev){
 void custom_label::mouseMoveEvent(QMouseEvent* ev){
     QLabel::mouseMoveEvent(ev);
     //qInfo() << ev->pos();
+}
+
+custom_button::custom_button(QWidget* parent) : QPushButton(parent){
+    this->installEventFilter(this);
+    this->mapToParent(QPoint(0, 0));
+
+    this->setGeometry(parent->rect());
 }

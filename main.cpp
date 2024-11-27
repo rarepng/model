@@ -1,4 +1,4 @@
-#include "filecrypt.hpp"
+#include "model.hpp"
 #include <QtWidgets/QApplication>
 
 int main(int argc, char* argv[])
