@@ -1,4 +1,4 @@
-#include "model.hpp"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        #include "model.hpp"
 
 #include <iostream>
 #include <qfile.h>
@@ -26,6 +26,21 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     cogs_value = new custom_field("COGS Value", false, ui.cogsvalue_label);
     total_expenses = new custom_field("Total Expenses", false, ui.expenses_label);
 
+    employees_left = new custom_field("Employees left",false,ui.employees_left_label);
+    average_total_employees = new custom_field("Average total employees",false,ui.Average_total_employees_label);
+    total_units = new custom_field("Total units",false,ui.total_units_label);
+    production_hour = new custom_field("Production hour",false,ui.production_hour_label);
+    material_cost = new custom_field("Material cost",false,ui.material_cost_label);
+    marketing_cost = new custom_field("Marketing cost",false,ui.marketing_cost_label);
+    new_products = new custom_field("New products",false,ui.new_products_label);
+    total_products = new custom_field("Total products",false,ui.total_products_label);
+    current_revenue = new custom_field("Current revenue",false,ui.current_revenue_label);
+    previous_revenue = new custom_field("previous revenue", false, ui.previous_revenue_label);
+
+
+
+
+
 
     total_assets->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
     total_revenue->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
@@ -34,6 +49,22 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     cogs_perc->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
     cogs_value->setValidator(new QDoubleValidator(0, 100.0, 2, this));
     total_expenses->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+
+
+
+
+
+    employees_left->setValidator(new QIntValidator(0, 1'000'000'000, this));
+    average_total_employees->setValidator(new QIntValidator(0, 1'000'000'000, this));
+    total_units->setValidator(new QIntValidator(0, 1'000'000'000, this));
+    production_hour->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    material_cost->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    marketing_cost->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    new_products->setValidator(new QIntValidator(0, 1'000'000'000, this));
+    total_products->setValidator(new QIntValidator(0, 1'000'000'000, this));
+    current_revenue->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+    previous_revenue->setValidator(new QDoubleValidator(0, 1'000'000'000'000.0, 2, this));
+
 
 
 
@@ -235,6 +266,11 @@ void custom_field::resizeEvent(QResizeEvent* event){
     }
 }
 
+void custom_button::resizeEvent(QResizeEvent* event) {
+    QWidget::resizeEvent(event);
+    qInfo() << "resize";
+    QRect tmp = ((QWidget*)this->parent())->rect();
+}
 void model::updateallcols() {
     for (const auto& i : parts) {
         for (int j{ i.startx }; j < i.startx+i.width; j++) {
@@ -334,7 +370,32 @@ void custom_label::mouseMoveEvent(QMouseEvent* ev){
 custom_button::custom_button(QWidget* parent) : QPushButton(parent){
     this->installEventFilter(this);
     this->mapToParent(QPoint(0, 0));
-
+    this->setText("AAAAAAAAAAAAAA");
+    this->setStyleSheet("QPushButton{\
+        height:100%;\
+        width:100%;\
+        padding:20px 16px 20px 16px;\
+        margin:16px;\
+        color: white;\
+            background-color: blue;\
+            border-radius: 20px;\
+            font-weight: Medium;\
+        }\
+        QPushButton:hover{\
+        border: 2px solid red;\
+        }\
+        QPushButton:pressed{\
+        background-color: #0063c5;\
+        }\
+        QPushButton:disabled{\
+        background-color: grey;\
+        }\
+        QPushButton:focused{\
+        border: 2px solid red;\
+        }\
+        QPushButton:!active{\
+        background-color: grey;\
+    }");
     this->setGeometry(parent->rect());
 }
 

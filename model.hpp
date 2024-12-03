@@ -173,6 +173,8 @@ class custom_button : QPushButton {
     Q_OBJECT
 public:
     explicit custom_button(QWidget* parent = nullptr);
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 };
 struct part {
     int width;
@@ -207,7 +209,7 @@ private:
 
     std::vector<part> parts{ 
         {192,396,72,334,[&] {return 0; }},                 //legs
-        {90,112,123,0,[&] {return static_cast<int>((total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100); }},                   //head
+        {90,112,123,0,[&] {return 0; }},                   //head
         {124,222,108,112,[&] {return 0; }},                //torso
         {53,76,0,335,[&]{return 0;}},                    //hands_R
         {53,76,291,335,[&]{return 0;}},                  //hands_L
@@ -217,7 +219,15 @@ private:
         {37,47,153,154,[&]{return 0;}},                  //heart
         //{342,730,0,0,[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
     };
-    
+    //^^^^^^^^^^^^^^^^^^^^^^skeleton^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    //const int head = static_cast<int>((total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100.0);
+    const std::function<int()> heart = [&] { return static_cast<int>((employees_left->text().toDouble() / average_total_employees->text().toDouble()) * 100.0);};
+    const std::function<int()> arms = [&] { return static_cast<int>((total_units->text().toDouble() / production_hour->text().toDouble()));};
+    const std::function<int()> hands = [&] { return static_cast<int>((material_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0);};
+    const std::function<int()> stomach = [&] { return static_cast<int>((marketing_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0);};
+    const std::function<int()> torso = [&] { return static_cast<int>((new_products->text().toDouble() / total_products->text().toDouble()) * 100.0);};
+    const std::function<int()> legs = [&] { return static_cast<int>(((current_revenue->text().toDouble() - previous_revenue->text().toDouble()) / previous_revenue->text().toDouble()) * 100.0);};
 
     void updateallcols();
     void resetcols();
@@ -235,6 +245,19 @@ private:
     custom_field* cogs_perc;
     custom_field* cogs_value;
     custom_field* total_expenses;
+
+    custom_field* employees_left;
+    custom_field* average_total_employees;
+    custom_field* total_units;
+    custom_field* production_hour;
+    custom_field* material_cost;
+    custom_field* marketing_cost;
+    custom_field* new_products;
+    custom_field* total_products;
+    custom_field* current_revenue;
+    custom_field* previous_revenue;
+
+
 
     Ui::filecryptClass ui;
 

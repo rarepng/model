@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.22)
 project(model LANGUAGES CXX)
 
-include(qt.cmake)
+
+
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+
+
+list(APPEND CMAKE_PREFIX_PATH "E:/miasma/qt/6.8.1/msvc2022_64")
+list(APPEND CMAKE_PROGRAM_PATH  "E:/miasma/qt/6.8.1/msvc2022_64/bin")
+
+
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 find_package(Qt${QT_VERSION_MAJOR}
     COMPONENTS
         Core
