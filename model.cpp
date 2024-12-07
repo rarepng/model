@@ -8,7 +8,45 @@
 
 
 model::model(QWidget* parent) : QMainWindow(parent) {
+
     ui.setupUi(this);
+
+
+
+    QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect(this);
+    effect->setOpacity(0.0);
+
+
+    ui.hover_head_label->setGraphicsEffect(effect);
+    ui.hover_heart_label->setGraphicsEffect(effect);
+    ui.hover_arms_label->setGraphicsEffect(effect);
+    ui.hover_torso_label->setGraphicsEffect(effect);
+    ui.hover_legs_label->setGraphicsEffect(effect);
+    ui.hover_hands_label->setGraphicsEffect(effect);
+
+    ui.hover_head_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui.hover_heart_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui.hover_arms_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui.hover_torso_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui.hover_legs_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    ui.hover_hands_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+
+    ui.hover_head_label->setAttribute(Qt::WA_NoSystemBackground, true);
+    ui.hover_heart_label->setAttribute(Qt::WA_NoSystemBackground, true);
+    ui.hover_arms_label->setAttribute(Qt::WA_NoSystemBackground, true);
+    ui.hover_torso_label->setAttribute(Qt::WA_NoSystemBackground, true);
+    ui.hover_legs_label->setAttribute(Qt::WA_NoSystemBackground, true);
+    ui.hover_hands_label->setAttribute(Qt::WA_NoSystemBackground, true);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,7 +106,7 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-    body_label = new custom_label(body,ui.body);
+    body_label = new custom_label(body, ui.body);
 
 
 
@@ -76,6 +114,25 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     connect(reinterpret_cast<QPushButton*>(submit), &QAbstractButton::clicked, this, &model::updateallcols);
     reset = new custom_button("reset all", ui.reset_label);
     connect(reinterpret_cast<QPushButton*>(reset), &QAbstractButton::clicked, this, &model::resetcols);
+
+
+
+
+
+    stomach_hover = new custom_hoverbox("The stomach 'nourishes' the company by bringing in new customers, similar to how marketing acquires and sustains customer relationships.", ui.hover_stomach_label);
+    head_hover = new custom_hoverbox("The head is responsible for planning, strategic thinking, and managing risks, just as finance oversees financial stability and risk management.", ui.hover_head_label);
+    heart_hover = new custom_hoverbox("The heart represents employee morale and engagement, essential for keeping the company's 'lifeblood' (employees) flowing and engaged.", ui.hover_heart_label);
+    arms_hover = new custom_hoverbox("The arms are associated with action and execution, symbolizing the ability to perform tasks efficiently in operations.", ui.hover_arms_label);
+    torso_hover = new custom_hoverbox("The torso represents the core, housing vital organs, like production and engineering, that keep the company functioning.", ui.hover_torso_label);
+    legs_hover = new custom_hoverbox("The legs propel the company forward, representing sales, which drive revenue growth and keep the business moving.", ui.hover_legs_label);
+    hands_hover = new custom_hoverbox("The hands manage sourcing and material acquisition, symbolizing how procurement supplies the company with necessary resources.", ui.hover_arms_label);
+
+
+
+
+
+    
+    //ui.setupUi(this);
 
 }
 
@@ -208,15 +265,31 @@ bool custom_label::eventFilter(QObject* obj, QEvent* ev) {
     if (ev->type() == QEvent::MouseMove) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
         for (const auto& r : model::parts) {
+                r.hide();
+        }
+        for (const auto& r : model::parts2) {
+                r.hide();
+        }
+        for (const auto& r : model::parts) {
+            if (r.dim.contains(mouseEvent->pos())) {
+                r.disp();
+            }
+        }
+        for (const auto& r : model::parts2) {
             if (r.dim.contains(mouseEvent->pos())) {
                 r.disp();
             }
         }
     }
 
-    if (ev->type() == QEvent::MouseMove) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
-        this->setToolTip(QString::number(mouseEvent->pos().y()));
+
+    if (ev->type() == QEvent::Leave) {
+        for (const auto& r : model::parts) {
+            r.hide();
+        }
+        for (const auto& r : model::parts2) {
+            r.hide();
+        }
     }
         //qInfo() << mouseEvent->pos();
     return false;
@@ -297,6 +370,23 @@ void model::updateallcols() {
         }
     }
     this->body_label->rerender();
+
+
+    for (const auto& i : parts2) {
+        for (int j{ i.dim.x() }; j < (i.dim.x() + i.dim.width()); j++) {
+            for (int k{ i.dim.y() }; k < (i.dim.y() + i.dim.height()); k++) {
+                QColor c = this->body_label->bodyimg.pixelColor(j, k);
+                int sat = std::clamp(static_cast<int>(255.0f * (1.0f - std::sqrt(std::pow((static_cast<float>(j - i.dim.x()) / static_cast<float>(i.dim.width())) - 0.5, 2) + std::pow((static_cast<float>(k - i.dim.y()) / static_cast<float>(i.dim.height())) - 0.5, 2)))),0,255);
+                //if(sat>128)c.setHsv(static_cast<int>((i.hue(i.huefn())*((sat) / 200))+(c.hue()*(1 - ((sat) / 200)))), c.saturation(), c.value(), c.alpha());
+                //if (sat > 128)c.setHsv(((i.hue(i.huefn())* (sat-128)/64)+(c.hue())*(1 - (sat-128)/64))/2, (c.saturation() + sat) / 2, c.value(), c.alpha());
+                if (sat > 128)c.setHsv(i.hue(i.huefn()), (c.saturation() + sat) / 2, c.value(), c.alpha());
+                this->body_label->bodyimg.setPixelColor(j, k, c);
+            }
+        }
+    }
+    this->body_label->rerender();
+
+
 }
 
 void model::resetcols(){
@@ -411,3 +501,41 @@ custom_button::custom_button(QString placeholder,QWidget* parent) : QPushButton(
     this->setGeometry(parent->rect());
 }
 
+
+custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) {
+
+    this->installEventFilter(this);
+
+    this->mapToParent(QPoint(0, 0));
+
+    this->setGeometry(parent->rect());
+
+    this->setText(msg);
+    this->setStyleSheet("background-color: rgba(0, 0, 0, 255); border: 2px solid white; padding: 10px;");
+
+    this->setProperty("wordWrap", true);
+
+    this->adjustSize();
+    //parent->setMouseTracking(true);
+    this->setVisible(false);
+    this->setHidden(true);
+    this->parentWidget()->setVisible(false);
+    this->parentWidget()->setHidden(true);
+
+}
+void custom_hoverbox::visible2() {
+
+    this->setVisible(true);
+    this->setHidden(false);
+    this->parentWidget()->setVisible(true);
+    this->parentWidget()->setHidden(false);
+
+}
+void custom_hoverbox::visiblefalse() {
+
+    this->setVisible(false);
+    this->setHidden(true);
+    this->parentWidget()->setVisible(false);
+    this->parentWidget()->setHidden(true);
+
+}

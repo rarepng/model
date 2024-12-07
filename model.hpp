@@ -176,6 +176,24 @@ private:
     //void resizeEvent(QResizeEvent* event) override;
 
 };
+class custom_hoverbox : QLabel {
+    Q_OBJECT
+public:
+    explicit custom_hoverbox(QString msg,QWidget* parent = nullptr);
+    void visible2();
+    void visiblefalse();
+    //bool eventFilter(QObject* obj, QEvent* ev);
+    //void rerender();
+    //void reset();
+protected:
+    //void enterEvent(QEnterEvent* event) override;
+    //void mouseMoveEvent(QMouseEvent* ev) override;
+private:
+    //void hoverEvent(QLeaveEvent* ev) override;
+    //void focusOutEvent(QFocusEvent* event) override;
+    //void resizeEvent(QResizeEvent* event) override;
+
+};
 class custom_button : QPushButton {
     Q_OBJECT
 public:
@@ -188,6 +206,7 @@ struct part {
     std::function<double()> huefn;
     std::function<int(double)> hue;
     std::function<void()> disp = [&] { qInfo() << QString("hello");};
+    std::function<void()> hide = [&] { qInfo() << QString("goodbye");};
 };
 
 
@@ -268,20 +287,38 @@ public:
         };
     //static inline const std::function<int(double)> headmap = [&](double perc) { { qInfo() << static_cast<int>(std::clamp(perc, 0.0, 120.0)) << "  AAA  " << std::clamp(perc, 0.0, 120.0) << "  AAA  " << perc; return static_cast<int>(std::clamp(perc, 0.0, 120.0)); }};
 
+    static inline  custom_hoverbox* head_hover = nullptr;
+    static inline  custom_hoverbox* heart_hover = nullptr;
+    static inline  custom_hoverbox* arms_hover = nullptr;
+    static inline  custom_hoverbox* torso_hover = nullptr;
+    static inline  custom_hoverbox* legs_hover = nullptr;
+    static inline  custom_hoverbox* hands_hover = nullptr;
+    static inline  custom_hoverbox* stomach_hover = nullptr;
+    //static inline  custom_hoverbox* skeleton_hover = nullptr;
+
+
+
+
+    static inline  custom_hoverbox* extra_fluff = nullptr;
+
+
+
     static inline const std::vector<part> parts{
-        {{72,334,192,396},legs,legsmap,[&] { qInfo() << QString("legs");}},                 //legs
-        {{123,0,90,112},head,headmap,[&] { qInfo() << QString("head");}},                   //head
-        {{108,112,124,222},torso,torsomap,[&] { qInfo() << QString("torso");}},                //torso
-        {{0,335,53,76},hands,handsmap,[&] { qInfo() << QString("hands_R");}},                    //hands_R
-        {{291,335,51,76},hands,handsmap,[&] { qInfo() << QString("hands_L");}},                  //hands_L
-        {{0,112,108,223},arms,armsmap,[&] { qInfo() << QString("arms_R");}},                  //arms_R
-        {{232,112,106,223},arms,armsmap,[&] { qInfo() << QString("arms_L");}},                //arms_L
-        {{161,200,48,36},stomach,stomachmap,[&] { qInfo() << QString("stomach");}},                  //stomach
-        {{153,154,37,45},heart,heartmap,[&] { qInfo() << QString("heart");}},                  //heart
+        {{72,334,192,396},legs,legsmap,[&] { legs_hover->visible2();},[&] { legs_hover->visiblefalse();}},                 //legs
+        {{123,0,90,112},head,headmap,[&] { head_hover->visible2();},[&] { head_hover->visiblefalse();}},                   //head
+        {{108,112,124,222},torso,torsomap,[&] { torso_hover->visible2();},[&] { torso_hover->visiblefalse();}},                //torso
+        {{0,335,53,76},hands,handsmap,[&] { hands_hover->visible2();},[&] { hands_hover->visiblefalse();}},                    //hands_R
+        {{291,335,51,76},hands,handsmap,[&] { hands_hover->visible2();},[&] { hands_hover->visiblefalse();}},                  //hands_L
+        {{0,112,108,223},arms,armsmap,[&] { arms_hover->visible2();},[&] { arms_hover->visiblefalse();} },                  //arms_R
+    { {232,112,106,223},arms,armsmap,[&] { arms_hover->visible2();},[&] { arms_hover->visiblefalse();} },                //arms_L
         //{{342,730,0,0},[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
     };
     //^^^^^^^^^^^^^^^^^^^^^^skeleton^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^2
 
+    static inline const std::vector<part> parts2{
+        {{153,154,37,45},heart,heartmap,[&] { heart_hover->visible2();},[&] { heart_hover->visiblefalse();}},                  //heart
+        { { 161,200,48,36 },stomach,stomachmap,[&] { stomach_hover->visible2();},[&] { stomach_hover->visiblefalse();} },                  //stomach
+    };
 
     void updateallcols();
     void resetcols();
@@ -292,7 +329,6 @@ private:
     custom_label* body_label;
     custom_button* submit;
     custom_button* reset;
-
 
 
     Ui::filecryptClass ui;
