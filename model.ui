@@ -60,29 +60,35 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>680</y>
-      <width>202</width>
-      <height>80</height>
+      <x>470</x>
+      <y>670</y>
+      <width>302</width>
+      <height>111</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="update_grid">
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="update_label">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>200</width>
-         <height>50</height>
+         <width>300</width>
+         <height>100</height>
         </size>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -91,29 +97,35 @@
    <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>780</y>
-      <width>202</width>
-      <height>80</height>
+      <x>470</x>
+      <y>790</y>
+      <width>302</width>
+      <height>102</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="reset_grid">
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="reset_label">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>200</width>
-         <height>50</height>
+         <width>300</width>
+         <height>100</height>
         </size>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>

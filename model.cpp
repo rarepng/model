@@ -16,7 +16,7 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     QImage body{ "body.png" };
 
 
-    body.convertToFormat(QImage::Format_RGBA8888);
+    body = body.convertToFormat(QImage::Format_RGBA8888);
 
     total_assets = new custom_field("Total Assets", false, ui.assets_label);
     total_revenue = new custom_field("Total Revenue", false, ui.revenue_label);
@@ -72,9 +72,9 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-    submit = new custom_button(ui.update_label);
+    submit = new custom_button("Calculate all", ui.update_label);
     connect(reinterpret_cast<QPushButton*>(submit), &QAbstractButton::clicked, this, &model::updateallcols);
-    reset = new custom_button(ui.reset_label);
+    reset = new custom_button("reset all", ui.reset_label);
     connect(reinterpret_cast<QPushButton*>(reset), &QAbstractButton::clicked, this, &model::resetcols);
 
 }
@@ -191,20 +191,34 @@ custom_label::custom_label(QImage img, QWidget* parent) : QLabel(parent) {
 
 }
 
-bool custom_label::eventFilter(QObject* obj, QEvent* ev){
+bool custom_label::eventFilter(QObject* obj, QEvent* ev) {
+    //if (ev->type() == QEvent::MouseMove) {
+    //    QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
+    //    for (int i{ mouseEvent->pos().x() }; i < mouseEvent->pos().x() + 20; i++) {
+    //        for (int j{ mouseEvent->pos().y() }; j < mouseEvent->pos().y() + 20; j++) {
+    //            QColor c = this->bodyimg.pixelColor(i, j);
+
+    //            c.setHsv(0, c.saturation(), c.value(), c.alpha());
+    //            this->bodyimg.setPixelColor(i, j, c);
+    //        }
+    //    }
+    //    this->setPixmap(QPixmap::fromImage(this->bodyimg));
+    //}
+
     if (ev->type() == QEvent::MouseMove) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
-        for (int i{ mouseEvent->pos().x() }; i < mouseEvent->pos().x() + 20; i++) {
-            for (int j{ mouseEvent->pos().y() }; j < mouseEvent->pos().y() + 20; j++) {
-                QColor c = this->bodyimg.pixelColor(i, j);
-
-                c.setHsv(0, c.saturation(), c.value(), c.alpha());
-                this->bodyimg.setPixelColor(i, j, c);
+        for (const auto& r : model::parts) {
+            if (r.dim.contains(mouseEvent->pos())) {
+                r.disp();
             }
         }
-        this->setPixmap(QPixmap::fromImage(this->bodyimg));
-        //qInfo() << mouseEvent->pos();
     }
+
+    if (ev->type() == QEvent::MouseMove) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(ev);
+        this->setToolTip(QString::number(mouseEvent->pos().y()));
+    }
+        //qInfo() << mouseEvent->pos();
     return false;
 }
 
@@ -273,12 +287,11 @@ void custom_button::resizeEvent(QResizeEvent* event) {
 }
 void model::updateallcols() {
     for (const auto& i : parts) {
-        for (int j{ i.startx }; j < i.startx+i.width; j++) {
-            for (int k{ i.starty }; k < i.starty+i.height; k++) {
+        for (int j{ i.dim.x()}; j < (i.dim.x() + i.dim.width()); j++) {
+            for (int k{ i.dim.y()}; k < (i.dim.y() + i.dim.height()); k++) {
                 QColor c = this->body_label->bodyimg.pixelColor(j, k);
-                int sat = static_cast<int>(255.0f * (1.0f - std::sqrt(std::pow((static_cast<float>(j - i.startx) / static_cast<float>(i.width)) - 0.5, 2) + std::pow((static_cast<float>(k - i.starty) / static_cast<float>(i.height)) - 0.5, 2))));
-                //c.setHsv(i.hue + 255 - (sat), sat, c.value(), c.alpha());
-                c.setHsv(i.hue(), sat, c.value(), c.alpha());
+                int sat = static_cast<int>(255.0f * (1.0f - std::sqrt(std::pow((static_cast<float>(j - i.dim.x()) / static_cast<float>(i.dim.width())) - 0.5, 2) + std::pow((static_cast<float>(k - i.dim.y()) / static_cast<float>(i.dim.height())) - 0.5, 2))));
+                c.setHsv(i.hue(i.huefn()), sat, c.value(), c.alpha());
                 this->body_label->bodyimg.setPixelColor(j, k, c);
             }
         }
@@ -359,6 +372,7 @@ QPropertyAnimation* custom_field::coloranim(T* anim, const QColor& col_from, con
 
 void custom_label::enterEvent(QEnterEvent* ev){
     QLabel::enterEvent(ev);
+
     //qInfo() << ev->pos();
 }
 
@@ -367,13 +381,11 @@ void custom_label::mouseMoveEvent(QMouseEvent* ev){
     //qInfo() << ev->pos();
 }
 
-custom_button::custom_button(QWidget* parent) : QPushButton(parent){
+custom_button::custom_button(QString placeholder,QWidget* parent) : QPushButton(parent){
     this->installEventFilter(this);
     this->mapToParent(QPoint(0, 0));
-    this->setText("AAAAAAAAAAAAAA");
+    this->setText(placeholder);
     this->setStyleSheet("QPushButton{\
-        height:100%;\
-        width:100%;\
         padding:20px 16px 20px 16px;\
         margin:16px;\
         color: white;\

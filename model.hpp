@@ -24,7 +24,14 @@
 #include <qevent.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+#include <qrect.h>
 
+#include <iostream>
+
+//#include <qmap.h>
+#include <qgraphicsscene.h>
+#include <qgraphicsview.h>
+#include <qtextedit.h>
 
 #include <vector>
 
@@ -172,16 +179,15 @@ private:
 class custom_button : QPushButton {
     Q_OBJECT
 public:
-    explicit custom_button(QWidget* parent = nullptr);
+    explicit custom_button(QString placeholder,QWidget* parent = nullptr);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 };
 struct part {
-    int width;
-    int height;
-    int startx;
-    int starty;
-    std::function<int()> hue;
+    QRect dim;
+    std::function<double()> huefn;
+    std::function<int(double)> hue;
+    std::function<void()> disp = [&] { qInfo() << QString("hello");};
 };
 
 
@@ -204,58 +210,88 @@ public:
 
     void changeSvg(const QString& svgPath, const QColor& newColor, QLabel* label,int size);
 
-private:
 
+    static inline custom_field* total_assets;
+    static inline custom_field* total_revenue;
+    static inline custom_field* total_marketing_cost;
+    static inline custom_field* total_salaries;
+    static inline custom_field* cogs_perc;
+    static inline custom_field* cogs_value;
+    static inline custom_field* total_expenses;
 
-    std::vector<part> parts{ 
-        {192,396,72,334,[&] {return 0; }},                 //legs
-        {90,112,123,0,[&] {return 0; }},                   //head
-        {124,222,108,112,[&] {return 0; }},                //torso
-        {53,76,0,335,[&]{return 0;}},                    //hands_R
-        {53,76,291,335,[&]{return 0;}},                  //hands_L
-        {108,223,0,112,[&]{return 0;}},                  //arms_R
-        {108,223,232,112,[&]{return 0;}},                //arms_L
-        {48,36,161,198,[&]{return 0;}},                  //stomach
-        {37,47,153,154,[&]{return 0;}},                  //heart
-        //{342,730,0,0,[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
+    static inline custom_field* employees_left;
+    static inline custom_field* average_total_employees;
+    static inline custom_field* total_units;
+    static inline custom_field* production_hour;
+    static inline custom_field* material_cost;
+    static inline custom_field* marketing_cost;
+    static inline custom_field* new_products;
+    static inline custom_field* total_products;
+    static inline custom_field* current_revenue;
+    static inline custom_field* previous_revenue;
+
+    static inline const std::function<double()> head = [&] { if (total_revenue->text().isEmpty() || cogs_value->text().isEmpty()) return 0.0; else return (total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100.0;};
+    static inline const std::function<double()> heart = [&] { if (employees_left->text().isEmpty() || average_total_employees->text().isEmpty()) return 100.0; else return (employees_left->text().toDouble() / average_total_employees->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> arms = [&] { if (total_units->text().isEmpty() || production_hour->text().isEmpty()) return 0.0; else return (total_units->text().toDouble() / production_hour->text().toDouble());};
+    static inline const std::function<double()> hands = [&] { if (material_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (material_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> stomach = [&] { if (marketing_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (marketing_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> torso = [&] { if (new_products->text().isEmpty() || total_products->text().isEmpty()) return 0.0; else return (new_products->text().toDouble() / total_products->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> legs = [&] { if (current_revenue->text().isEmpty() || previous_revenue->text().isEmpty()) return 0.0; else return ((current_revenue->text().toDouble() - previous_revenue->text().toDouble()) / previous_revenue->text().toDouble()) * 100.0;};
+
+    static inline const std::function<int(double)> headmap = [&](double perc) {
+        return static_cast<int>(std::clamp(4.0 * perc - 40.0, 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> heartmap = [&](double perc) {
+        return static_cast<int>(std::clamp((- 6.0 * perc + 165.0), 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> armsmap = [&](double perc) {
+        return static_cast<int>(std::clamp(4.0 * perc - 260.0, 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> handsmap = [&](double perc) {
+        return static_cast<int>(std::clamp(-4.0 * perc + 280.0, 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> stomachmap = [&](double perc) {
+        return static_cast<int>(std::clamp(-12.0 * perc + 210.0, 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> torsomap = [&](double perc) {
+        return static_cast<int>(std::clamp(12.0 * perc - 30.0, 0.0, 120.0));
+
+        };
+    static inline const std::function<int(double)> legsmap = [&](double perc) {
+        return static_cast<int>(std::clamp(20.0 * perc - 70.0, 0.0, 120.0));
+
+        };
+    //static inline const std::function<int(double)> headmap = [&](double perc) { { qInfo() << static_cast<int>(std::clamp(perc, 0.0, 120.0)) << "  AAA  " << std::clamp(perc, 0.0, 120.0) << "  AAA  " << perc; return static_cast<int>(std::clamp(perc, 0.0, 120.0)); }};
+
+    static inline const std::vector<part> parts{
+        {{72,334,192,396},legs,legsmap,[&] { qInfo() << QString("legs");}},                 //legs
+        {{123,0,90,112},head,headmap,[&] { qInfo() << QString("head");}},                   //head
+        {{108,112,124,222},torso,torsomap,[&] { qInfo() << QString("torso");}},                //torso
+        {{0,335,53,76},hands,handsmap,[&] { qInfo() << QString("hands_R");}},                    //hands_R
+        {{291,335,51,76},hands,handsmap,[&] { qInfo() << QString("hands_L");}},                  //hands_L
+        {{0,112,108,223},arms,armsmap,[&] { qInfo() << QString("arms_R");}},                  //arms_R
+        {{232,112,106,223},arms,armsmap,[&] { qInfo() << QString("arms_L");}},                //arms_L
+        {{161,200,48,36},stomach,stomachmap,[&] { qInfo() << QString("stomach");}},                  //stomach
+        {{153,154,37,45},heart,heartmap,[&] { qInfo() << QString("heart");}},                  //heart
+        //{{342,730,0,0},[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
     };
-    //^^^^^^^^^^^^^^^^^^^^^^skeleton^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //^^^^^^^^^^^^^^^^^^^^^^skeleton^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^2
 
-    //const int head = static_cast<int>((total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100.0);
-    const std::function<int()> heart = [&] { return static_cast<int>((employees_left->text().toDouble() / average_total_employees->text().toDouble()) * 100.0);};
-    const std::function<int()> arms = [&] { return static_cast<int>((total_units->text().toDouble() / production_hour->text().toDouble()));};
-    const std::function<int()> hands = [&] { return static_cast<int>((material_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0);};
-    const std::function<int()> stomach = [&] { return static_cast<int>((marketing_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0);};
-    const std::function<int()> torso = [&] { return static_cast<int>((new_products->text().toDouble() / total_products->text().toDouble()) * 100.0);};
-    const std::function<int()> legs = [&] { return static_cast<int>(((current_revenue->text().toDouble() - previous_revenue->text().toDouble()) / previous_revenue->text().toDouble()) * 100.0);};
 
     void updateallcols();
     void resetcols();
 
 
+private:
 
     custom_label* body_label;
     custom_button* submit;
     custom_button* reset;
-
-    custom_field* total_assets;
-    custom_field* total_revenue;
-    custom_field* total_marketing_cost;
-    custom_field* total_salaries;
-    custom_field* cogs_perc;
-    custom_field* cogs_value;
-    custom_field* total_expenses;
-
-    custom_field* employees_left;
-    custom_field* average_total_employees;
-    custom_field* total_units;
-    custom_field* production_hour;
-    custom_field* material_cost;
-    custom_field* marketing_cost;
-    custom_field* new_products;
-    custom_field* total_products;
-    custom_field* current_revenue;
-    custom_field* previous_revenue;
 
 
 
@@ -272,3 +308,67 @@ private:
     int legs_hue{ 0 };
 
 };
+//class HoverRegionWidget : public QWidget
+//{
+//    Q_OBJECT
+//
+//public:
+//    HoverRegionWidget(QWidget* parent = nullptr) : QWidget(parent)
+//    {
+//        setMouseTracking(true); // Enable mouse tracking
+//        imageLabel = new QLabel(this);
+//        imageLabel->setPixmap(QPixmap(":/path/to/your/image.png"));
+//        imageLabel->setAlignment(Qt::AlignCenter);
+//        imageLabel->setMouseTracking(true);
+//
+//        infoBox = new QWidget(this);
+//        infoBox->setStyleSheet("background-color: rgba(0, 0, 0, 150); border: 2px solid white; padding: 10px;");
+//        infoBox->setHidden(true);
+//
+//        infoText = new QTextEdit(infoBox);
+//        infoText->setReadOnly(true);
+//
+//        QVBoxLayout* boxLayout = new QVBoxLayout(infoBox);
+//        boxLayout->addWidget(infoText);
+//
+//        QVBoxLayout* mainLayout = new QVBoxLayout(this);
+//        mainLayout->addWidget(imageLabel);
+//        setLayout(mainLayout);
+//
+//        // Define regions and their corresponding content
+//        regions = {
+//            {{50, 50, 100, 100}, "Info for Region 1"},
+//            {{200, 150, 150, 150}, "Info for Region 2"},
+//            {{400, 300, 100, 200}, "Info for Region 3"}
+//        };
+//    }
+//
+//protected:
+//    void mouseMoveEvent(QMouseEvent* event) override {
+//        QPoint mousePos = event->pos();
+//        bool found = false;
+//
+//        // Check if the mouse is in any defined region
+//        for (const auto& region : regions.keys()) {
+//            if (region.contains(mousePos)) {
+//                infoText->setText(regions[region]);
+//                infoBox->setGeometry(mousePos.x() + 15, mousePos.y() + 15, 200, 100); // Adjust position relative to mouse
+//                infoBox->setVisible(true);
+//                found = true;
+//                break;
+//            }
+//        }
+//
+//        if (!found) {
+//            infoBox->setVisible(false); // Hide the box if no region is matched
+//        }
+//    }
+//
+//private:
+//    QLabel* imageLabel;
+//    QWidget* infoBox;
+//    QTextEdit* infoText;
+//
+//    // Map to store regions and their corresponding content
+//    QMap<QRect, QString> regions;
+//};
