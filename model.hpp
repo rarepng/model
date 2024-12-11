@@ -324,6 +324,15 @@ public:
     void resetcols();
 
 
+   const QString msgstomach = "The stomach 'nourishes' the company by bringing in new customers, similar to how marketing acquires and sustains customer relationships.";
+   const QString msghead = "The head is responsible for planning, strategic thinking, and managing risks, just as finance oversees financial stability and risk management.";
+   const QString msgheart = "The heart represents employee morale and engagement, essential for keeping the company's 'lifeblood' (employees) flowing and engaged.";
+   const QString msgarms = "The arms are associated with action and execution, symbolizing the ability to perform tasks efficiently in operations.";
+   const QString msgtorso = "The torso represents the core, housing vital organs, like production and engineering, that keep the company functioning.";
+   const QString msglegs = "The legs propel the company forward, representing sales, which drive revenue growth and keep the business moving.";
+   const QString msghands = "The hands manage sourcing and material acquisition, symbolizing how procurement supplies the company with necessary resources.";
+
+
 private:
 
     custom_label* body_label;

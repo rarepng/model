@@ -9,8 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 
-list(APPEND CMAKE_PREFIX_PATH "E:/miasma/qt/6.8.1/msvc2022_64")
-list(APPEND CMAKE_PROGRAM_PATH  "E:/miasma/qt/6.8.1/msvc2022_64/bin")
+list(APPEND CMAKE_PREFIX_PATH "C:/Qt/6.8.0/msvc2022_64")
+list(APPEND CMAKE_PROGRAM_PATH  "C:/Qt/6.8.0/msvc2022_64/bin")
 
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Widgets Gui)

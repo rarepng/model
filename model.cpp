@@ -119,13 +119,13 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-    stomach_hover = new custom_hoverbox("The stomach 'nourishes' the company by bringing in new customers, similar to how marketing acquires and sustains customer relationships.", ui.hover_stomach_label);
-    head_hover = new custom_hoverbox("The head is responsible for planning, strategic thinking, and managing risks, just as finance oversees financial stability and risk management.", ui.hover_head_label);
-    heart_hover = new custom_hoverbox("The heart represents employee morale and engagement, essential for keeping the company's 'lifeblood' (employees) flowing and engaged.", ui.hover_heart_label);
-    arms_hover = new custom_hoverbox("The arms are associated with action and execution, symbolizing the ability to perform tasks efficiently in operations.", ui.hover_arms_label);
-    torso_hover = new custom_hoverbox("The torso represents the core, housing vital organs, like production and engineering, that keep the company functioning.", ui.hover_torso_label);
-    legs_hover = new custom_hoverbox("The legs propel the company forward, representing sales, which drive revenue growth and keep the business moving.", ui.hover_legs_label);
-    hands_hover = new custom_hoverbox("The hands manage sourcing and material acquisition, symbolizing how procurement supplies the company with necessary resources.", ui.hover_arms_label);
+    stomach_hover = new custom_hoverbox(msgstomach, ui.hover_stomach_label);
+    head_hover = new custom_hoverbox(msghead, ui.hover_head_label);
+    heart_hover = new custom_hoverbox(msgheart, ui.hover_heart_label);
+    arms_hover = new custom_hoverbox(msgarms, ui.hover_arms_label);
+    torso_hover = new custom_hoverbox(msgtorso, ui.hover_torso_label);
+    legs_hover = new custom_hoverbox(msglegs, ui.hover_legs_label);
+    hands_hover = new custom_hoverbox(msghands, ui.hover_arms_label);
 
 
 
@@ -510,8 +510,12 @@ custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) 
 
     this->setGeometry(parent->rect());
 
-    this->setText(msg);
-    this->setStyleSheet("background-color: rgba(0, 0, 0, 255); border: 2px solid white; padding: 10px;");
+    this->setText("<h1 style=\"color: red; font-family: Arial, sans-serif; font-size: 36px; text-align: center;\">50%</h1>" +msg);
+
+
+    this->setStyleSheet("background-color: rgba(0, 0, 0, 255); border: 2px solid white; padding: 10px;    QLabel h1 {\
+        background-color: red;\
+} ");
 
     this->setProperty("wordWrap", true);
 
