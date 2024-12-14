@@ -205,7 +205,7 @@ struct part {
     QRect dim;
     std::function<double()> huefn;
     std::function<int(double)> hue;
-    std::function<void()> disp = [&] { qInfo() << QString("hello");};
+    std::function<void()> disp = [] { qInfo() << QString("hello");};
     std::function<void()> hide = [&] { qInfo() << QString("goodbye");};
 };
 
@@ -249,43 +249,43 @@ public:
     static inline custom_field* current_revenue;
     static inline custom_field* previous_revenue;
 
-    static inline const std::function<double()> head = [&] { if (total_revenue->text().isEmpty() || cogs_value->text().isEmpty()) return 0.0; else return (total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100.0;};
-    static inline const std::function<double()> heart = [&] { if (employees_left->text().isEmpty() || average_total_employees->text().isEmpty()) return 100.0; else return (employees_left->text().toDouble() / average_total_employees->text().toDouble()) * 100.0;};
-    static inline const std::function<double()> arms = [&] { if (total_units->text().isEmpty() || production_hour->text().isEmpty()) return 0.0; else return (total_units->text().toDouble() / production_hour->text().toDouble());};
-    static inline const std::function<double()> hands = [&] { if (material_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (material_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
-    static inline const std::function<double()> stomach = [&] { if (marketing_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (marketing_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
-    static inline const std::function<double()> torso = [&] { if (new_products->text().isEmpty() || total_products->text().isEmpty()) return 0.0; else return (new_products->text().toDouble() / total_products->text().toDouble()) * 100.0;};
-    static inline const std::function<double()> legs = [&] { if (current_revenue->text().isEmpty() || previous_revenue->text().isEmpty()) return 0.0; else return ((current_revenue->text().toDouble() - previous_revenue->text().toDouble()) / previous_revenue->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> head = [] { if (total_revenue->text().isEmpty() || cogs_value->text().isEmpty()) return 0.0; else return (total_revenue->text().toDouble() - cogs_value->text().toDouble()) / total_revenue->text().toDouble() * 100.0;};
+    static inline const std::function<double()> heart = [] { if (employees_left->text().isEmpty() || average_total_employees->text().isEmpty()) return 100.0; else return (employees_left->text().toDouble() / average_total_employees->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> arms = [] { if (total_units->text().isEmpty() || production_hour->text().isEmpty()) return 0.0; else return (total_units->text().toDouble() / production_hour->text().toDouble());};
+    static inline const std::function<double()> hands = [] { if (material_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (material_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> stomach = [] { if (marketing_cost->text().isEmpty() || total_revenue->text().isEmpty()) return 100.0; else return (marketing_cost->text().toDouble() / total_revenue->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> torso = [] { if (new_products->text().isEmpty() || total_products->text().isEmpty()) return 0.0; else return (new_products->text().toDouble() / total_products->text().toDouble()) * 100.0;};
+    static inline const std::function<double()> legs = [] { if (current_revenue->text().isEmpty() || previous_revenue->text().isEmpty()) return 0.0; else return ((current_revenue->text().toDouble() - previous_revenue->text().toDouble()) / previous_revenue->text().toDouble()) * 100.0;};
 
-    static inline const std::function<int(double)> headmap = [&](double perc) {
+    static inline const std::function<int(double)> headmap = [](double perc) {
         return static_cast<int>(std::clamp(4.0 * perc - 40.0, 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> heartmap = [&](double perc) {
+    static inline const std::function<int(double)> heartmap = [](double perc) {
         return static_cast<int>(std::clamp((- 6.0 * perc + 165.0), 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> armsmap = [&](double perc) {
+    static inline const std::function<int(double)> armsmap = [](double perc) {
         return static_cast<int>(std::clamp(4.0 * perc - 260.0, 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> handsmap = [&](double perc) {
+    static inline const std::function<int(double)> handsmap = [](double perc) {
         return static_cast<int>(std::clamp(-4.0 * perc + 280.0, 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> stomachmap = [&](double perc) {
+    static inline const std::function<int(double)> stomachmap = [](double perc) {
         return static_cast<int>(std::clamp(-12.0 * perc + 210.0, 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> torsomap = [&](double perc) {
+    static inline const std::function<int(double)> torsomap = [](double perc) {
         return static_cast<int>(std::clamp(12.0 * perc - 30.0, 0.0, 120.0));
 
         };
-    static inline const std::function<int(double)> legsmap = [&](double perc) {
+    static inline const std::function<int(double)> legsmap = [](double perc) {
         return static_cast<int>(std::clamp(20.0 * perc - 70.0, 0.0, 120.0));
 
         };
-    //static inline const std::function<int(double)> headmap = [&](double perc) { { qInfo() << static_cast<int>(std::clamp(perc, 0.0, 120.0)) << "  AAA  " << std::clamp(perc, 0.0, 120.0) << "  AAA  " << perc; return static_cast<int>(std::clamp(perc, 0.0, 120.0)); }};
+    //static inline const std::function<int(double)> headmap = [](double perc) { { qInfo() << static_cast<int>(std::clamp(perc, 0.0, 120.0)) << "  AAA  " << std::clamp(perc, 0.0, 120.0) << "  AAA  " << perc; return static_cast<int>(std::clamp(perc, 0.0, 120.0)); }};
 
     static inline  custom_hoverbox* head_hover = nullptr;
     static inline  custom_hoverbox* heart_hover = nullptr;
@@ -304,20 +304,20 @@ public:
 
 
     static inline const std::vector<part> parts{
-        {{72,334,192,396},legs,legsmap,[&] { legs_hover->visible2();},[&] { legs_hover->visiblefalse();}},                 //legs
-        {{123,0,90,112},head,headmap,[&] { head_hover->visible2();},[&] { head_hover->visiblefalse();}},                   //head
-        {{108,112,124,222},torso,torsomap,[&] { torso_hover->visible2();},[&] { torso_hover->visiblefalse();}},                //torso
-        {{0,335,53,76},hands,handsmap,[&] { hands_hover->visible2();},[&] { hands_hover->visiblefalse();}},                    //hands_R
-        {{291,335,51,76},hands,handsmap,[&] { hands_hover->visible2();},[&] { hands_hover->visiblefalse();}},                  //hands_L
-        {{0,112,108,223},arms,armsmap,[&] { arms_hover->visible2();},[&] { arms_hover->visiblefalse();} },                  //arms_R
-    { {232,112,106,223},arms,armsmap,[&] { arms_hover->visible2();},[&] { arms_hover->visiblefalse();} },                //arms_L
-        //{{342,730,0,0},[&]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
+        {{72,334,192,396},legs,legsmap,[] { legs_hover->visible2();},[] { legs_hover->visiblefalse();}},                 //legs
+        {{123,0,90,112},head,headmap,[] { head_hover->visible2();},[] { head_hover->visiblefalse();}},                   //head
+        {{108,112,124,222},torso,torsomap,[] { torso_hover->visible2();},[] { torso_hover->visiblefalse();}},                //torso
+        {{0,335,53,76},hands,handsmap,[] { hands_hover->visible2();},[] { hands_hover->visiblefalse();}},                    //hands_R
+        {{291,335,51,76},hands,handsmap,[] { hands_hover->visible2();},[] { hands_hover->visiblefalse();}},                  //hands_L
+        {{0,112,108,223},arms,armsmap,[] { arms_hover->visible2();},[] { arms_hover->visiblefalse();} },                  //arms_R
+    { {232,112,106,223},arms,armsmap,[] { arms_hover->visible2();},[] { arms_hover->visiblefalse();} },                //arms_L
+        //{{342,730,0,0},[]{return static_cast<int>(total_assets->text().toDouble()/total_revenue->text().toDouble());}}                     //skeleton
     };
     //^^^^^^^^^^^^^^^^^^^^^^skeleton^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^2
 
     static inline const std::vector<part> parts2{
-        {{153,154,37,45},heart,heartmap,[&] { heart_hover->visible2();},[&] { heart_hover->visiblefalse();}},                  //heart
-        { { 161,200,48,36 },stomach,stomachmap,[&] { stomach_hover->visible2();},[&] { stomach_hover->visiblefalse();} },                  //stomach
+        {{153,154,37,45},heart,heartmap,[] { heart_hover->visible2();},[] { heart_hover->visiblefalse();}},                  //heart
+        { { 161,200,48,36 },stomach,stomachmap,[] { stomach_hover->visible2();},[] { stomach_hover->visiblefalse();} },                  //stomach
     };
 
     void updateallcols();

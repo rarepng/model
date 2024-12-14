@@ -51,7 +51,7 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-    QImage body{ "body.png" };
+    QImage body{ "resources/body.png" };
 
 
     body = body.convertToFormat(QImage::Format_RGBA8888);
@@ -207,7 +207,7 @@ custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent
         eye_action = new QAction{ QIcon{ "eye_open.svg" },"",this };
         this->addAction(eye_action, QLineEdit::TrailingPosition);
 
-        connect(eye_action, &QAction::triggered, [=]() {
+        connect(eye_action, &QAction::triggered, [this]() {
             this->setEchoMode(this->echoMode() == QLineEdit::Normal ? QLineEdit::Password : QLineEdit::Normal);
             eye_action->setIcon(this->echoMode() == QLineEdit::Normal ? QIcon{ "eye.svg" } : QIcon{ "eye_open.svg" });
             });
@@ -340,7 +340,7 @@ void custom_field::focusOutEvent(QFocusEvent* event) {
 
 void custom_field::resizeEvent(QResizeEvent* event){
     QWidget::resizeEvent(event);
-    qInfo() << "resize";
+    //qInfo() << "resize";
     QRect tmp = ((QWidget*)this->parent())->rect();
     this->setGeometry(tmp.x(), tmp.y()+24, tmp.width(), tmp.height()-24);
 
@@ -355,7 +355,7 @@ void custom_field::resizeEvent(QResizeEvent* event){
 
 void custom_button::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
-    qInfo() << "resize";
+    //qInfo() << "resize";
     QRect tmp = ((QWidget*)this->parent())->rect();
 }
 void model::updateallcols() {
@@ -505,19 +505,20 @@ custom_button::custom_button(QString placeholder,QWidget* parent) : QPushButton(
 custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) {
 
     this->installEventFilter(this);
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
     this->mapToParent(QPoint(0, 0));
 
     this->setGeometry(parent->rect());
 
-    this->setText("<h1 style=\"color: red; font-family: Arial, sans-serif; font-size: 36px; text-align: center;\">50%</h1>" +msg);
+    this->setText("<h1 style=\"color: rgba(255, 0, 0, 255); font-family: Arial, sans-serif; font-size: 36px; text-align: center;\">0%</h1>" +msg);
 
 
-    this->setStyleSheet("background-color: rgba(0, 0, 0, 255); border: 2px solid white; padding: 10px;    QLabel h1 {\
-        background-color: red;\
-} ");
+    this->setStyleSheet("background-color: rgba(40, 40, 40, 120); border: 2px solid white; border-radius: 20px; padding: 10px;");
 
     this->setProperty("wordWrap", true);
+
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
     this->adjustSize();
     //parent->setMouseTracking(true);
@@ -526,6 +527,7 @@ custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) 
     this->parentWidget()->setVisible(false);
     this->parentWidget()->setHidden(true);
 
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 }
 void custom_hoverbox::visible2() {
 

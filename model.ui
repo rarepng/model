@@ -385,11 +385,11 @@
       <x>280</x>
       <y>40</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -419,11 +419,11 @@
       <x>290</x>
       <y>150</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -453,11 +453,11 @@
       <x>330</x>
       <y>220</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -469,7 +469,8 @@
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:#00000000</string>
+     <string notr="true">background-color:#00000000;
+border-radius: 4px;</string>
     </property>
     <property name="text">
      <string/>
@@ -487,11 +488,11 @@
       <x>330</x>
       <y>380</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -521,7 +522,7 @@
       <x>390</x>
       <y>510</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -555,11 +556,11 @@
       <x>350</x>
       <y>620</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -589,11 +590,11 @@
       <x>360</x>
       <y>300</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -623,11 +624,11 @@
       <x>170</x>
       <y>780</y>
       <width>300</width>
-      <height>100</height>
+      <height>200</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>

@@ -1,6 +1,11 @@
+.gitignore
 out
 .vs
 build
 out
 CMakePresets.json
 CMakeUserPresets.json
+resources/body.psd
+filecrypt.zip
+build_static
+
