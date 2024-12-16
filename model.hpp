@@ -45,7 +45,7 @@ namespace stylesheets {
                             border-radius:8px;\
                             padding:17px 20px 17px 20px;\
                             margin:0px 0px 0px 0px;\
-                            color:black;\
+                            color: red;\
                          }" };
     inline QString error_field{ "QLineEdit{\
                             border:0.5px solid red;\
@@ -158,7 +158,7 @@ private:
     QColor m_borderColor;
     int m_borderRadius;
 };
-class custom_label : QLabel {
+class custom_label : public QLabel {
     Q_OBJECT
 public:
     explicit custom_label(QImage img, QWidget* parent = nullptr);
@@ -176,7 +176,7 @@ private:
     //void resizeEvent(QResizeEvent* event) override;
 
 };
-class custom_hoverbox : QLabel {
+class custom_hoverbox : public QLabel {
     Q_OBJECT
 public:
     explicit custom_hoverbox(QString msg,QWidget* parent = nullptr);
@@ -301,7 +301,12 @@ public:
 
     static inline  custom_hoverbox* extra_fluff = nullptr;
 
-
+    std::vector<int> parthues{ 0,0,0,0,0,0,0
+        //    ,0
+    };
+    std::vector<double> partvals{ 0.0,0.0,0.0,0.0,0.0,0.0,0.0
+        //    ,0.0
+    };
 
     static inline const std::vector<part> parts{
         {{72,334,192,396},legs,legsmap,[] { legs_hover->visible2();},[] { legs_hover->visiblefalse();}},                 //legs

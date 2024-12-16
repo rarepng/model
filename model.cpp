@@ -169,7 +169,14 @@ custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent
 
     this->setGeometry(parent->rect());
 
+    QPalette sample_palette;
+    sample_palette.setColor(QPalette::WindowText, Qt::black);
+
+    this->setPalette(sample_palette);
+
+
     this->setStyleSheet(stylesheets::base_field);
+    //this->setStyleSheet("QLineEdit{\"color: red; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"}");
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     this->adjustSize();
@@ -193,7 +200,6 @@ custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent
     fall_anim = fall(placeholder_background);
     rise_anim_back = rise(placeholder_text);
     fall_anim_back = fall(placeholder_text);
-
 
 
 
@@ -305,6 +311,13 @@ void custom_label::reset(){
 
 void custom_field::focusInEvent(QFocusEvent* event) {
     QLineEdit::focusInEvent(event);
+
+    qDebug() << this->styleSheet();
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Text, Qt::red);  // Override text color
+    this->setPalette(palette);
+
+    this->setStyleSheet(stylesheets::base_field);
     if (this->text().isEmpty()) {
         rise_anim->start(QAbstractAnimation::KeepWhenStopped);
         shadow = new QGraphicsDropShadowEffect();
@@ -387,6 +400,16 @@ void model::updateallcols() {
     this->body_label->rerender();
 
 
+    qInfo() << parthues;
+    
+    stomach_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black;  font-size: 12px;\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts2[1].hue(parts2[1].huefn()), 255, 255).name()).arg(parts2[1].huefn()).arg("Marketing").arg("Customer Acquisition Cost : ") + msgstomach);
+    head_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[1].hue(parts[1].huefn()), 255, 255).name()).arg(parts[1].huefn()).arg("Finance").arg("Gross Profit Margin : ") + msghead);
+    heart_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts2[0].hue(parts2[0].huefn()), 255, 255).name()).arg(parts2[0].huefn()).arg("HR").arg("Turnover Ratio : ") + msgheart);
+    arms_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[4].hue(parts[4].huefn()), 255, 255).name()).arg(parts[4].huefn()).arg("Operations").arg("Efficiency Ratio : ") + msgarms);
+    torso_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[2].hue(parts[2].huefn()), 255, 255).name()).arg(parts[2].huefn()).arg("Engineering").arg("Innovation Rate : ") + msgtorso);
+    legs_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[0].hue(parts[0].huefn()), 255, 255).name()).arg(parts[0].huefn()).arg("Sales").arg("Revenue Growth% : ") + msglegs);
+    hands_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black;  font-size: 12px;\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[3].hue(parts[3].huefn()), 255, 255).name()).arg(parts[3].huefn()).arg("Procurement").arg("Material cost to Revenue Ratio : ") + msghands);
+    qInfo() << parthues;
 }
 
 void model::resetcols(){
@@ -446,7 +469,6 @@ void model::changeSvg(const QString& svgPath, const QColor& newColor, QLabel* la
     painter.fillRect(pixmap.rect(), newColor);
     painter.end();
 
-    // Set the colored pixmap to a QLabel (or any widget)
     label->setPixmap(pixmap);
 }
 
@@ -462,13 +484,10 @@ QPropertyAnimation* custom_field::coloranim(T* anim, const QColor& col_from, con
 
 void custom_label::enterEvent(QEnterEvent* ev){
     QLabel::enterEvent(ev);
-
-    //qInfo() << ev->pos();
 }
 
 void custom_label::mouseMoveEvent(QMouseEvent* ev){
     QLabel::mouseMoveEvent(ev);
-    //qInfo() << ev->pos();
 }
 
 custom_button::custom_button(QString placeholder,QWidget* parent) : QPushButton(parent){
@@ -528,6 +547,7 @@ custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) 
     this->parentWidget()->setHidden(true);
 
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
 }
 void custom_hoverbox::visible2() {
 

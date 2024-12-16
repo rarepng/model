@@ -8,4 +8,5 @@ CMakeUserPresets.json
 resources/body.psd
 filecrypt.zip
 build_static
-
+gbuild
+vsbuild
