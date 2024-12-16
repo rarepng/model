@@ -45,7 +45,7 @@ namespace stylesheets {
                             border-radius:8px;\
                             padding:17px 20px 17px 20px;\
                             margin:0px 0px 0px 0px;\
-                            color: red;\
+                            color: black;\
                          }" };
     inline QString error_field{ "QLineEdit{\
                             border:0.5px solid red;\

@@ -169,11 +169,8 @@ custom_field::custom_field(QString placeholdertext, bool secret, QWidget* parent
 
     this->setGeometry(parent->rect());
 
-    QPalette sample_palette;
-    sample_palette.setColor(QPalette::WindowText, Qt::black);
 
-    this->setPalette(sample_palette);
-
+    this->parentWidget()->setStyleSheet(stylesheets::base_field);
 
     this->setStyleSheet(stylesheets::base_field);
     //this->setStyleSheet("QLineEdit{\"color: red; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"}");
