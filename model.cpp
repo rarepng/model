@@ -114,6 +114,8 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     connect(reinterpret_cast<QPushButton*>(submit), &QAbstractButton::clicked, this, &model::updateallcols);
     reset = new custom_button("reset all", ui.reset_label);
     connect(reinterpret_cast<QPushButton*>(reset), &QAbstractButton::clicked, this, &model::resetcols);
+    emode = new custom_button("edit values", ui.Editmode);
+    connect(reinterpret_cast<QPushButton*>(emode), &QAbstractButton::clicked, this, &model::editemode);
 
 
 
@@ -130,6 +132,29 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
+    emode->setVisible(false);
+    ui.hider_label->setVisible(false);
+    ui.Editmode->setVisible(false);
+    ui.body->setVisible(false);
+    ui.update_label->parentWidget()->setVisible(true);
+    ui.reset_label->parentWidget()->setVisible(true);
+    ui.assets_label->parentWidget()->setVisible(true);
+    ui.revenue_label->parentWidget()->setVisible(true);
+    ui.marketingcost_label->parentWidget()->setVisible(true);
+    ui.salaries_label->parentWidget()->setVisible(true);
+    ui.cogsperc_label->parentWidget()->setVisible(true);
+    ui.cogsvalue_label->parentWidget()->setVisible(true);
+    ui.expenses_label->parentWidget()->setVisible(true);
+    ui.employees_left_label->parentWidget()->setVisible(true);
+    ui.Average_total_employees_label->parentWidget()->setVisible(true);
+    ui.total_units_label->parentWidget()->setVisible(true);
+    ui.production_hour_label->parentWidget()->setVisible(true);
+    ui.material_cost_label->parentWidget()->setVisible(true);
+    ui.marketing_cost_label->parentWidget()->setVisible(true);
+    ui.new_products_label->parentWidget()->setVisible(true);
+    ui.total_products_label->parentWidget()->setVisible(true);
+    ui.current_revenue_label->parentWidget()->setVisible(true);
+    ui.previous_revenue_label->parentWidget()->setVisible(true);
 
     
     //ui.setupUi(this);
@@ -138,7 +163,31 @@ model::model(QWidget* parent) : QMainWindow(parent) {
 
 
 
-
+void model::editemode(){
+    emode->setVisible(false);
+    ui.hider_label->setVisible(false);
+    ui.Editmode->setVisible(false);
+    ui.body->setVisible(false);
+    ui.update_label->parentWidget()->setVisible(true);
+    ui.reset_label->parentWidget()->setVisible(true);
+    ui.assets_label->parentWidget()->setVisible(true);
+    ui.revenue_label->parentWidget()->setVisible(true);
+    ui.marketingcost_label->parentWidget()->setVisible(true);
+    ui.salaries_label->parentWidget()->setVisible(true);
+    ui.cogsperc_label->parentWidget()->setVisible(true);
+    ui.cogsvalue_label->parentWidget()->setVisible(true);
+    ui.expenses_label->parentWidget()->setVisible(true);
+    ui.employees_left_label->parentWidget()->setVisible(true);
+    ui.Average_total_employees_label->parentWidget()->setVisible(true);
+    ui.total_units_label->parentWidget()->setVisible(true);
+    ui.production_hour_label->parentWidget()->setVisible(true);
+    ui.material_cost_label->parentWidget()->setVisible(true);
+    ui.marketing_cost_label->parentWidget()->setVisible(true);
+    ui.new_products_label->parentWidget()->setVisible(true);
+    ui.total_products_label->parentWidget()->setVisible(true);
+    ui.current_revenue_label->parentWidget()->setVisible(true);
+    ui.previous_revenue_label->parentWidget()->setVisible(true);
+}
 
 
 
@@ -369,6 +418,41 @@ void custom_button::resizeEvent(QResizeEvent* event) {
     QRect tmp = ((QWidget*)this->parent())->rect();
 }
 void model::updateallcols() {
+    emode->setVisible(true);
+    ui.hider_label->setVisible(false);
+    ui.Editmode->setVisible(true);
+    ui.body->setVisible(true);
+
+    ui.update_label->parentWidget()->setVisible(false);
+    ui.reset_label->parentWidget()->setVisible(false);
+    ui.assets_label->parentWidget()->setVisible(false);
+    ui.revenue_label->parentWidget()->setVisible(false);
+    ui.marketingcost_label->parentWidget()->setVisible(false);
+    ui.salaries_label->parentWidget()->setVisible(false);
+    ui.cogsperc_label->parentWidget()->setVisible(false);
+    ui.cogsvalue_label->parentWidget()->setVisible(false);
+    ui.expenses_label->parentWidget()->setVisible(false);
+    ui.employees_left_label->parentWidget()->setVisible(false);
+    ui.Average_total_employees_label->parentWidget()->setVisible(false);
+    ui.total_units_label->parentWidget()->setVisible(false);
+    ui.production_hour_label->parentWidget()->setVisible(false);
+    ui.material_cost_label->parentWidget()->setVisible(false);
+    ui.marketing_cost_label->parentWidget()->setVisible(false);
+    ui.new_products_label->parentWidget()->setVisible(false);
+    ui.total_products_label->parentWidget()->setVisible(false);
+    ui.current_revenue_label->parentWidget()->setVisible(false);
+    ui.previous_revenue_label->parentWidget()->setVisible(false);
+
+
+
+
+
+
+
+
+
+
+
     for (const auto& i : parts) {
         for (int j{ i.dim.x()}; j < (i.dim.x() + i.dim.width()); j++) {
             for (int k{ i.dim.y()}; k < (i.dim.y() + i.dim.height()); k++) {

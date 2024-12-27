@@ -10,3 +10,4 @@ filecrypt.zip
 build_static
 gbuild
 vsbuild
+CMakeLists.txt.user

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1101</width>
-    <height>893</height>
+    <width>960</width>
+    <height>943</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,16 +20,16 @@
    <string>Sample UI</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:white;</string>
+   <string notr="true">background-color:#ffffffff</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>300</x>
+      <y>-60</y>
       <width>424</width>
-      <height>901</height>
+      <height>1021</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="body_grid">
@@ -60,7 +60,7 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>170</x>
       <y>630</y>
       <width>302</width>
       <height>111</height>
@@ -84,6 +84,9 @@
          <height>100</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -97,7 +100,7 @@
    <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>170</x>
       <y>750</y>
       <width>302</width>
       <height>102</height>
@@ -121,6 +124,9 @@
          <height>100</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -134,72 +140,23 @@
    <widget class="QWidget" name="gridLayoutWidget_4">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>170</x>
       <y>10</y>
-      <width>281</width>
+      <width>301</width>
       <height>598</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="assets_label">
+     <item row="6" column="0">
+      <widget class="QLabel" name="expenses_label">
        <property name="minimumSize">
         <size>
          <width>0</width>
          <height>80</height>
         </size>
        </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="revenue_label">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="cogsperc_label">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="cogsvalue_label">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="salaries_label">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -214,18 +171,88 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="expenses_label">
+     <item row="4" column="0">
+      <widget class="QLabel" name="cogsperc_label">
        <property name="minimumSize">
         <size>
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="revenue_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="cogsvalue_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="assets_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="salaries_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -237,7 +264,7 @@
    <widget class="QWidget" name="gridLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>500</x>
       <y>10</y>
       <width>281</width>
       <height>856</height>
@@ -252,6 +279,9 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -264,6 +294,9 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -278,6 +311,9 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -290,6 +326,9 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -304,6 +343,9 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -316,6 +358,9 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -330,6 +375,9 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -342,6 +390,9 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -356,6 +407,9 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -368,6 +422,9 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#00000000</string>
        </property>
        <property name="text">
         <string/>
@@ -382,8 +439,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>40</y>
+      <x>630</x>
+      <y>10</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -416,8 +473,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>150</y>
+      <x>620</x>
+      <y>170</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -450,8 +507,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>220</y>
+      <x>640</x>
+      <y>230</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -485,8 +542,8 @@ border-radius: 4px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>380</y>
+      <x>40</x>
+      <y>230</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -519,8 +576,8 @@ border-radius: 4px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>510</y>
+      <x>660</x>
+      <y>440</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -553,8 +610,8 @@ border-radius: 4px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>620</y>
+      <x>20</x>
+      <y>490</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -587,8 +644,8 @@ border-radius: 4px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>300</y>
+      <x>630</x>
+      <y>320</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -621,8 +678,8 @@ border-radius: 4px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>780</y>
+      <x>790</x>
+      <y>740</y>
       <width>300</width>
       <height>200</height>
      </rect>
@@ -649,6 +706,56 @@ border-radius: 4px;</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="Editmode">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>750</y>
+      <width>321</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#00000000</string>
+    </property>
+    <property name="text">
+     <string>Edit</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="hider_label">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>220</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#00000000</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>gridLayoutWidget_2</zorder>
+   <zorder>gridLayoutWidget_3</zorder>
+   <zorder>gridLayoutWidget_4</zorder>
+   <zorder>gridLayoutWidget_5</zorder>
+   <zorder>hider_label</zorder>
+   <zorder>Editmode</zorder>
+   <zorder>hover_hands_label</zorder>
+   <zorder>hover_extra_fluff</zorder>
+   <zorder>hover_arms_label</zorder>
+   <zorder>hover_head_label</zorder>
+   <zorder>hover_stomach_label</zorder>
+   <zorder>hover_legs_label</zorder>
+   <zorder>hover_torso_label</zorder>
+   <zorder>hover_heart_label</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

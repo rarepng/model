@@ -46,6 +46,7 @@ namespace stylesheets {
                             padding:17px 20px 17px 20px;\
                             margin:0px 0px 0px 0px;\
                             color: black;\
+                            background-color:#00000000;\
                          }" };
     inline QString error_field{ "QLineEdit{\
                             border:0.5px solid red;\
@@ -194,7 +195,7 @@ private:
     //void resizeEvent(QResizeEvent* event) override;
 
 };
-class custom_button : QPushButton {
+class custom_button : public QPushButton {
     Q_OBJECT
 public:
     explicit custom_button(QString placeholder,QWidget* parent = nullptr);
@@ -327,6 +328,7 @@ public:
 
     void updateallcols();
     void resetcols();
+    void editemode();
 
 
    const QString msgstomach = "The stomach 'nourishes' the company by bringing in new customers, similar to how marketing acquires and sustains customer relationships.";
@@ -343,6 +345,7 @@ private:
     custom_label* body_label;
     custom_button* submit;
     custom_button* reset;
+    custom_button* emode;
 
 
     Ui::filecryptClass ui;
