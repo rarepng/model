@@ -76,7 +76,7 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     previous_revenue = new custom_field("previous revenue", false, ui.previous_revenue_label);
 
 
-
+    company_name = new custom_field("Name",false,ui.company_label);
 
 
 
@@ -130,6 +130,13 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     hands_hover = new custom_hoverbox(msghands, ui.hover_arms_label);
 
 
+    company_title = new custom_txt("",ui.title_label);
+
+    company_title->setStyleSheet("\
+                            padding:17px 20px 17px 20px;\
+                            margin:0px 0px 0px 0px;\
+                            background-color:#00000000;");
+
 
 
     emode->setVisible(false);
@@ -156,7 +163,11 @@ model::model(QWidget* parent) : QMainWindow(parent) {
     ui.current_revenue_label->parentWidget()->setVisible(true);
     ui.previous_revenue_label->parentWidget()->setVisible(true);
 
+    company_name->parentWidget()->setVisible(true);
     
+
+    company_title->setVisible(false);
+
     //ui.setupUi(this);
 
 }
@@ -187,6 +198,8 @@ void model::editemode(){
     ui.total_products_label->parentWidget()->setVisible(true);
     ui.current_revenue_label->parentWidget()->setVisible(true);
     ui.previous_revenue_label->parentWidget()->setVisible(true);
+    company_name->parentWidget()->setVisible(true);
+    company_title->setVisible(false);
 }
 
 
@@ -412,6 +425,16 @@ void custom_field::resizeEvent(QResizeEvent* event){
     }
 }
 
+void custom_txt::resizeEvent(QResizeEvent* event){
+    QWidget::resizeEvent(event);
+    QRect tmp = ((QWidget*)this->parent())->rect();
+    this->setGeometry(tmp.x(), tmp.y()+24, tmp.width(), tmp.height()-24);
+
+}
+
+
+
+
 void custom_button::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     //qInfo() << "resize";
@@ -446,7 +469,8 @@ void model::updateallcols() {
 
 
 
-
+    company_name->parentWidget()->setVisible(false);
+    company_title->setVisible(true);
 
 
 
@@ -490,6 +514,9 @@ void model::updateallcols() {
     torso_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[2].hue(parts[2].huefn()), 255, 255).name()).arg(parts[2].huefn()).arg("Engineering").arg("Innovation Rate : ") + msgtorso);
     legs_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[0].hue(parts[0].huefn()), 255, 255).name()).arg(parts[0].huefn()).arg("Sales").arg("Revenue Growth% : ") + msglegs);
     hands_hover->setText(QString("<div style = \"color: %1; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; text-align: center;\"><div>%3</div><br><span style=\" color:black;  font-size: 12px;\">%4</span><span>%2%</span></div>").arg(QColor::fromHsv(parts[3].hue(parts[3].huefn()), 255, 255).name()).arg(parts[3].huefn()).arg("Procurement").arg("Material cost to Revenue Ratio : ") + msghands);
+
+    company_title->setText(QString("<span style=\" color:%1;  font-size: 36px;\">%2 health</span>").arg(QColor::fromHsv((parts[3].hue(parts[3].huefn())+parts[3].hue(parts[3].huefn())+parts[3].hue(parts[3].huefn())+parts[3].hue(parts[3].huefn())+parts[3].hue(parts[3].huefn())+parts[3].hue(parts[3].huefn()))/6, 255, 255).name()).arg(company_name->text()));
+
     qInfo() << parthues;
 }
 
@@ -600,7 +627,33 @@ custom_button::custom_button(QString placeholder,QWidget* parent) : QPushButton(
     }");
     this->setGeometry(parent->rect());
 }
+custom_txt::custom_txt(QString txt, QWidget* parent):QLabel(parent){
 
+
+    this->installEventFilter(this);
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    this->parentWidget()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+    this->mapToParent(QPoint(0, 0));
+
+    this->setGeometry(parent->rect());
+    qInfo() << parent->rect();
+
+    this->setText("<h1 style=\"color: rgba(0, 255, 0, 255); font-family: Arial, sans-serif; font-size: 36px; text-align: center;\">0%</h1>" +txt);
+
+
+    this->setStyleSheet("background-color: rgba(0, 0, 0, 0); padding: 10px;");
+
+    this->setProperty("wordWrap", true);
+
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    this->parentWidget()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+    this->adjustSize();
+
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    this->parentWidget()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+}
 
 custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) {
 
@@ -614,7 +667,7 @@ custom_hoverbox::custom_hoverbox(QString msg, QWidget* parent) : QLabel(parent) 
     this->setText("<h1 style=\"color: rgba(255, 0, 0, 255); font-family: Arial, sans-serif; font-size: 36px; text-align: center;\">0%</h1>" +msg);
 
 
-    this->setStyleSheet("background-color: rgba(40, 40, 40, 120); border: 2px solid white; border-radius: 20px; padding: 10px;");
+    this->setStyleSheet("background-color: rgba(40, 40, 40, 120); border: 2px solid dark-grey; border-radius: 20px; padding: 10px;");
 
     this->setProperty("wordWrap", true);
 

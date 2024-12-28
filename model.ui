@@ -741,6 +741,50 @@ border-radius: 4px;</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="title_label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>300</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>300</width>
+      <height>100</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#00000000</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="company_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>400</y>
+      <width>141</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#00000000</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>gridLayoutWidget</zorder>
    <zorder>gridLayoutWidget_2</zorder>
    <zorder>gridLayoutWidget_3</zorder>
@@ -756,6 +800,8 @@ border-radius: 4px;</string>
    <zorder>hover_legs_label</zorder>
    <zorder>hover_torso_label</zorder>
    <zorder>hover_heart_label</zorder>
+   <zorder>company_label</zorder>
+   <zorder>title_label</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

@@ -177,6 +177,14 @@ private:
     //void resizeEvent(QResizeEvent* event) override;
 
 };
+
+class custom_txt : public QLabel {
+public:
+    explicit custom_txt(QString txt, QWidget* parent = nullptr);
+private:
+    void resizeEvent(QResizeEvent* event) override;
+
+};
 class custom_hoverbox : public QLabel {
     Q_OBJECT
 public:
@@ -229,6 +237,9 @@ public:
     ~model();
 
     void changeSvg(const QString& svgPath, const QColor& newColor, QLabel* label,int size);
+
+
+    static inline custom_field* company_name;
 
 
     static inline custom_field* total_assets;
@@ -297,7 +308,7 @@ public:
     static inline  custom_hoverbox* stomach_hover = nullptr;
     //static inline  custom_hoverbox* skeleton_hover = nullptr;
 
-
+    static inline custom_txt* company_title = nullptr;
 
 
     static inline  custom_hoverbox* extra_fluff = nullptr;
